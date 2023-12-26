@@ -72,7 +72,7 @@ class _AudioPlayingScreenState extends State<AudioPlayingScreen> {
       });
       listenToEvent();
       listenToSongIndex();
-    } catch (e) {
+    } on Exception catch (_) {
       popBack();
     }
   }
@@ -115,55 +115,66 @@ class _AudioPlayingScreenState extends State<AudioPlayingScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.black,
-      appBar: AppBar(
-        iconTheme: const IconThemeData(color: Colors.white),
-        backgroundColor: Colors.black,
-        centerTitle: true,
-        title: const Text(
-          'Now Playing',
-          style: TextStyle(color: Colors.white),
+    return Container(
+      decoration: BoxDecoration(
+          gradient: LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: [
+            Colors.deepPurple.shade900,
+            Colors.deepPurple.shade200,
+          ])),
+      child: Scaffold(
+        backgroundColor: Colors.transparent,
+        appBar: AppBar(
+          iconTheme: const IconThemeData(color: Colors.white),
+          backgroundColor: Colors.transparent,
+          centerTitle: true,
+          title: const Text(
+            'Now Playing',
+            style: TextStyle(color: Colors.white),
+          ),
         ),
-      ),
-      body: SafeArea(
-          child: Center(
-        child: Column(children: [
-          const CircleAvatar(
-            radius: 120,
-            child: Icon(
-              Icons.music_note,
-              size: 100,
+        body: SafeArea(
+            child: Center(
+          child: Column(children: [
+            const CircleAvatar(
+              radius: 120,
+              child: Icon(
+                Icons.music_note,
+                size: 100,
+              ),
             ),
-          ),
-          const SizedBox(
-            height: 50,
-          ),
-          Text(
-            widget.songModelList[currentindex].displayNameWOExt,
-            style: const TextStyle(
-                fontSize: 25,
-                fontWeight: FontWeight.bold,
-                overflow: TextOverflow.fade,
-                color: Colors.white),
-            maxLines: 1,
-            textAlign: TextAlign.center,
-          ),
-          Text(
-            widget.songModelList[currentindex].artist.toString() == '<unknown>'
-                ? 'Unknown Artist'
-                : widget.songModelList[currentindex].artist.toString(),
-            style: const TextStyle(
-                fontSize: 17, overflow: TextOverflow.fade, color: Colors.white),
-            maxLines: 1,
-          ),
-          const SizedBox(
-            height: 30,
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 12),
-            child: Row(
-              children: [
+            const SizedBox(
+              height: 50,
+            ),
+            Text(
+              widget.songModelList[currentindex].displayNameWOExt,
+              style: const TextStyle(
+                  fontSize: 25,
+                  fontWeight: FontWeight.bold,
+                  overflow: TextOverflow.fade,
+                  color: Colors.white),
+              maxLines: 1,
+              textAlign: TextAlign.center,
+            ),
+            Text(
+              widget.songModelList[currentindex].artist.toString() ==
+                      '<unknown>'
+                  ? 'Unknown Artist'
+                  : widget.songModelList[currentindex].artist.toString(),
+              style: const TextStyle(
+                  fontSize: 17,
+                  overflow: TextOverflow.fade,
+                  color: Colors.white),
+              maxLines: 1,
+            ),
+            const SizedBox(
+              height: 30,
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 12),
+              child: Row(children: [
                 Text(
                   _position.toString().split('.')[0],
                   style: const TextStyle(color: Colors.white),
@@ -181,59 +192,80 @@ class _AudioPlayingScreenState extends State<AudioPlayingScreen> {
                       }),
                 ),
                 Text(_duration.toString().split('.')[0],
-                    style: const TextStyle(color: Colors.white))
-              ],
+                    style: const TextStyle(color: Colors.white)),
+              ]),
             ),
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              IconButton(
-                  onPressed: () {
-                    if (widget.player.hasPrevious) {
-                      widget.player.seekToPrevious();
-                    }
-                  },
-                  icon: const Icon(
-                    Icons.skip_previous,
-                    color: Colors.white,
-                    size: 50,
-                  )),
-              IconButton(
-                  onPressed: () {
-                    setState(() {
-                      if (_isclicked) {
-                        widget.player.pause();
-                      } else {
-                        if (_position >= _duration) {
-                          seekToSeconds(0);
-                        } else {
-                          widget.player.play();
-                        }
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                IconButton(
+                    onPressed: () {
+                      if (widget.player.hasPrevious) {
+                        widget.player.seekToPrevious();
                       }
-                      _isclicked = !_isclicked;
-                    });
-                  },
-                  icon: Icon(
-                    _isclicked ? Icons.pause : Icons.play_arrow,
-                    size: 80,
-                    color: Colors.white,
-                  )),
-              IconButton(
-                  onPressed: () {
-                    if (widget.player.hasNext) {
-                      widget.player.seekToNext();
-                    }
-                  },
-                  icon: const Icon(
-                    Icons.skip_next,
-                    color: Colors.white,
-                    size: 50,
-                  ))
-            ],
-          )
-        ]),
-      )),
+                    },
+                    icon: const Icon(
+                      Icons.skip_previous,
+                      color: Colors.white,
+                      size: 50,
+                    )),
+                IconButton(
+                    onPressed: () {
+                      setState(() {
+                        if (_isclicked) {
+                          widget.player.pause();
+                        } else {
+                          if (_position >= _duration) {
+                            seekToSeconds(0);
+                          } else {
+                            widget.player.play();
+                          }
+                        }
+                        _isclicked = !_isclicked;
+                      });
+                    },
+                    icon: Icon(
+                      _isclicked ? Icons.pause : Icons.play_arrow,
+                      size: 80,
+                      color: Colors.white,
+                    )),
+                IconButton(
+                    onPressed: () {
+                      if (widget.player.hasNext) {
+                        widget.player.seekToNext();
+                      }
+                    },
+                    icon: const Icon(
+                      Icons.skip_next,
+                      color: Colors.white,
+                      size: 50,
+                    ))
+              ],
+            )
+          ]),
+        )),
+      ),
+    );
+  }
+}
+
+class ArtWorkWidget extends StatelessWidget {
+  const ArtWorkWidget({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return QueryArtworkWidget(
+      id: context.watch<SongModelProvider>().id,
+      type: ArtworkType.AUDIO,
+      artworkHeight: 200,
+      artworkWidth: 200,
+      artworkFit: BoxFit.cover,
+      nullArtworkWidget: const Icon(
+        Icons.music_note,
+        size: 200,
+      ),
     );
   }
 }

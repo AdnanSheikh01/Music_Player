@@ -20,8 +20,15 @@ class MusicTile extends StatelessWidget {
             const TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
         // overflow: TextOverflow.ellipsis,
       ),
-      subtitle: Text('${songModel.artist}'),
-      trailing: const Icon(Icons.more_horiz),
+      subtitle: Text(
+        '${songModel.artist}',
+        style: const TextStyle(color: Colors.white60),
+      ),
+      trailing: IconButton(
+        onPressed: () {},
+        icon: const Icon(Icons.more_vert_rounded),
+        color: Colors.white,
+      ),
       leading: CircleAvatar(
         radius: 25,
         child: QueryArtworkWidget(
