@@ -21,26 +21,15 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-    // (Optinal) Set logging level. By default will be set to 'WARN'.
-    //
-    // Log will appear on:
-    //  * XCode: Debug Console
-    //  * VsCode: Debug Console
-    //  * Android Studio: Debug and Logcat Console
     LogConfig logConfig = LogConfig(logType: LogType.DEBUG);
     _audioQuery.setLogConfig(logConfig);
-
-    // Check and request for permission.
     checkAndRequestPermissions();
   }
 
   checkAndRequestPermissions({bool retry = false}) async {
-    // The param 'retryRequest' is false, by default.
     _hasPermission = await _audioQuery.checkAndRequest(
       retryRequest: retry,
     );
-
-    // Only call update the UI if application has all required permissions.
     _hasPermission ? setState(() {}) : null;
   }
 
@@ -54,7 +43,7 @@ class _HomePageState extends State<HomePage> {
               colors: [
             Colors.deepPurple.shade900,
             Colors.deepPurple.shade400,
-            Colors.deepPurple.shade200
+            Colors.deepPurple.shade300
           ])),
       child: Scaffold(
         backgroundColor: Colors.transparent,
@@ -63,7 +52,7 @@ class _HomePageState extends State<HomePage> {
             backgroundColor: Colors.transparent,
             centerTitle: true,
             title: const Text(
-              'Music',
+              'Music Player',
               style:
                   TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
             ),

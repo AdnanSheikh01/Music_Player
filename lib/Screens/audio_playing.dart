@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:just_audio_background/just_audio_background.dart';
@@ -72,7 +73,8 @@ class _AudioPlayingScreenState extends State<AudioPlayingScreen> {
       });
       listenToEvent();
       listenToSongIndex();
-    } on Exception catch (_) {
+    } on Exception catch (e) {
+      log('Error: $e');
       popBack();
     }
   }
@@ -114,6 +116,14 @@ class _AudioPlayingScreenState extends State<AudioPlayingScreen> {
   }
 
   @override
+  void setState(VoidCallback fn) {
+    // TODO: implement setState
+    if (mounted) {
+      super.setState(fn);
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
@@ -122,7 +132,8 @@ class _AudioPlayingScreenState extends State<AudioPlayingScreen> {
               end: Alignment.bottomCenter,
               colors: [
             Colors.deepPurple.shade900,
-            Colors.deepPurple.shade200,
+            Colors.deepPurple.shade400,
+            Colors.deepPurple.shade300
           ])),
       child: Scaffold(
         backgroundColor: Colors.transparent,
@@ -182,6 +193,7 @@ class _AudioPlayingScreenState extends State<AudioPlayingScreen> {
                 Expanded(
                   child: Slider(
                       min: 0.0,
+                      activeColor: Colors.deepPurple,
                       value: _position.inSeconds.toDouble(),
                       max: _duration.inSeconds.toDouble(),
                       onChanged: (value) async {
@@ -209,26 +221,29 @@ class _AudioPlayingScreenState extends State<AudioPlayingScreen> {
                       color: Colors.white,
                       size: 50,
                     )),
-                IconButton(
-                    onPressed: () {
-                      setState(() {
-                        if (_isclicked) {
-                          widget.player.pause();
-                        } else {
-                          if (_position >= _duration) {
-                            seekToSeconds(0);
+                CircleAvatar(
+                  radius: 45,
+                  child: IconButton(
+                      onPressed: () {
+                        setState(() {
+                          if (_isclicked) {
+                            widget.player.pause();
                           } else {
-                            widget.player.play();
+                            if (_position >= _duration) {
+                              seekToSeconds(0);
+                            } else {
+                              widget.player.play();
+                            }
                           }
-                        }
-                        _isclicked = !_isclicked;
-                      });
-                    },
-                    icon: Icon(
-                      _isclicked ? Icons.pause : Icons.play_arrow,
-                      size: 80,
-                      color: Colors.white,
-                    )),
+                          _isclicked = !_isclicked;
+                        });
+                      },
+                      icon: Icon(
+                        _isclicked ? Icons.pause : Icons.play_arrow,
+                        size: 75,
+                        color: Colors.deepPurple,
+                      )),
+                ),
                 IconButton(
                     onPressed: () {
                       if (widget.player.hasNext) {
