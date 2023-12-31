@@ -18,16 +18,11 @@ class MusicTile extends StatelessWidget {
         songModel.displayNameWOExt,
         style:
             const TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
-        // overflow: TextOverflow.ellipsis,
+        overflow: TextOverflow.ellipsis,
       ),
       subtitle: Text(
         '${songModel.artist}',
         style: const TextStyle(color: Colors.white60),
-      ),
-      trailing: IconButton(
-        onPressed: () {},
-        icon: const Icon(Icons.more_vert_rounded),
-        color: Colors.white,
       ),
       leading: CircleAvatar(
         radius: 25,

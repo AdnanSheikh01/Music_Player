@@ -159,15 +159,18 @@ class _AudioPlayingScreenState extends State<AudioPlayingScreen> {
             const SizedBox(
               height: 50,
             ),
-            Text(
-              widget.songModelList[currentindex].displayNameWOExt,
-              style: const TextStyle(
-                  fontSize: 25,
-                  fontWeight: FontWeight.bold,
-                  overflow: TextOverflow.fade,
-                  color: Colors.white),
-              maxLines: 1,
-              textAlign: TextAlign.center,
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 15),
+              child: Text(
+                widget.songModelList[currentindex].displayNameWOExt,
+                style: const TextStyle(
+                    fontSize: 25,
+                    fontWeight: FontWeight.bold,
+                    overflow: TextOverflow.ellipsis,
+                    color: Colors.white),
+                maxLines: 1,
+                textAlign: TextAlign.center,
+              ),
             ),
             Text(
               widget.songModelList[currentindex].artist.toString() ==
@@ -206,6 +209,9 @@ class _AudioPlayingScreenState extends State<AudioPlayingScreen> {
                 Text(_duration.toString().split('.')[0],
                     style: const TextStyle(color: Colors.white)),
               ]),
+            ),
+            const SizedBox(
+              height: 30,
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
